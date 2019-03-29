@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ForecastItem from './ForecastItem';
+import transformForecast from './../services/transformForecast';
 import {api_key, url_base_forecast} from './../constants/api_url';
 import './styles.css';
 
@@ -29,6 +30,8 @@ class ForecastExtended extends Component {
         ).then(
             weather_data => {
                 console.log(weather_data);
+                const forecastData = transformForecast(weather_data);
+                this.setState({ forecastData })
             }
         );
     }
