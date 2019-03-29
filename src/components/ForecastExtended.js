@@ -8,7 +8,7 @@ import './styles.css';
 const days =['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
 
 const data = {
-    temperature: 10,
+    temperature: 17,
     humidity: 10,
     weatherState: 'normal',
     wind: 'normal',
@@ -31,13 +31,14 @@ class ForecastExtended extends Component {
             weather_data => {
                 console.log(weather_data);
                 const forecastData = transformForecast(weather_data);
-                this.setState({ forecastData })
+                this.setState({ forecastData });
             }
         );
     }
-    renderForecastItemDays(){
-        return "render items";
-        //return days.map(day=>(<ForecastItem weekDay={day} hour={10} data={data}></ForecastItem>))
+    renderForecastItemDays(forecastData){
+        return forecastData.map(forecast=>(
+        <ForecastItem key={`${forecast.weekDay}${forecast.hour}`}weekDay={forecast.weekDay} hour={forecast.hour} data={forecast.data}></ForecastItem>
+        ));
     }
 
     renderProgress = () => {
@@ -50,7 +51,7 @@ class ForecastExtended extends Component {
         return (
             <div>
                 <h2 className='forecast-title'>Pronostico extendido para {city}</h2>
-                {forecastData ? this.renderForecastItemDays() : 
+                {forecastData ? this.renderForecastItemDays(forecastData) : 
                 this.renderProgress()}
         </div>)
     }
