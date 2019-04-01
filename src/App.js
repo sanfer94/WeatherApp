@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import LocationList from './components/LocationList';
-import ForecastExtended from './components/ForecastExtended';
-import { setCity } from './actions';
+import LocationListContainer from './containers/LocationListContainer';
+import ForecastExtendedContainer from './containers/ForecastExtendedContainer';
 import './App.css';
 
 const cities = [
@@ -24,20 +21,7 @@ const cities = [
 
 
 class App extends Component {
-
-  constructor() {
-    super();
-    this.state = { city: null };
-  }
-
-  handleSelectedLocation = city => {
-    this.setState({ city });
-    console.log("handle etc");
-    this.props.dispatchSetCity(city);
-  }
   render() {
-
-    const { city } = this.state;
 
     return (
       <Grid>
@@ -52,18 +36,18 @@ class App extends Component {
         </Row>
         <Row>
           <Col xs={12} md={6}>
-            <LocationList
+            <LocationListContainer
               cities={cities}
-              onSelectedLocation={this.handleSelectedLocation}>
-            </LocationList>
+              >
+            </LocationListContainer>
           </Col>
           <Col xs={12} md={6}>
             <Paper>
               <div className="details">
-                {city &&
-                  <ForecastExtended city={city}>
+                {
+                  <ForecastExtendedContainer>
 
-                  </ForecastExtended>
+                  </ForecastExtendedContainer>
                 }
 
               </div>
@@ -77,13 +61,4 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  dispatchSetCity: PropTypes.func.isRequired,
-}
-const mapDispatchToProps = dispatch => (
-  {
-    dispatchSetCity: value => dispatch(setCity(value))
-  }
-);
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;
