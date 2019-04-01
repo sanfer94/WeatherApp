@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import LocationList from './components/LocationList';
 import ForecastExtended from './components/ForecastExtended';
-import {setCity} from './actions';
+import { setCity } from './actions';
 import './App.css';
 
 const cities = [
@@ -32,7 +33,7 @@ class App extends Component {
   handleSelectedLocation = city => {
     this.setState({ city });
     console.log("handle etc");
-    this.props.setCity(city);
+    this.props.dispatchSetCity(city);
   }
   render() {
 
@@ -76,10 +77,13 @@ class App extends Component {
   }
 }
 
-const mapDispatchToPropsActions = dispatch => ({
-  setCity:value=>dispatch(setCity(value))
-});
+App.propTypes = {
+  dispatchSetCity: PropTypes.func.isRequired,
+}
+const mapDispatchToProps = dispatch => (
+  {
+    dispatchSetCity: value => dispatch(setCity(value))
+  }
+);
 
-const AppConnected = connect(null,mapDispatchToPropsActions)(App);
-
-export default AppConnected;
+export default connect(null, mapDispatchToProps)(App);
