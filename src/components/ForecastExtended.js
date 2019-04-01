@@ -5,14 +5,14 @@ import transformForecast from './../services/transformForecast';
 import {api_key, url_base_forecast} from './../constants/api_url';
 import './styles.css';
 
-const days =['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+/* const days =['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
 
 const data = {
     temperature: 17,
     humidity: 10,
     weatherState: 'normal',
     wind: 'normal',
-}
+} */
 
 
 class ForecastExtended extends Component {
@@ -23,6 +23,17 @@ class ForecastExtended extends Component {
     }
 
     componentDidMount(){
+        this.updateCity(this.props.city);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.city !== this.props.city){
+            this.setState({forecastData:null});
+            this.updateCity(nextProps.city);
+        }
+    }
+
+    updateCity = city =>{
         const url_forecast = `${url_base_forecast}?q=${this.props.city}&appid=${api_key}`;
 
         fetch(url_forecast).then(
